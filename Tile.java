@@ -16,7 +16,7 @@ public class Tile{
     private int scale = 15;
     private int offset = 0;
 
-    private int visited_count = 0;
+    private double visited_count = 0.0;
 
     private boolean[] walls;
 
@@ -61,8 +61,12 @@ public class Tile{
         return scale;
     }
     public void addVisited(int n){
-        if(visited_count < 255)
-            visited_count+=n;
+        visited_count+=n;
+        if(visited_count > 255){
+            visited_count = 255;
+        }else if(visited_count < 0){
+            visited_count = 0;
+        }
     }
     public String toString(){
         String output;
@@ -73,8 +77,12 @@ public class Tile{
         return output;
     }
     public void draw(Graphics g){
-        g.setColor(new Color(255,255,255,visited_count));
-        g.fillRect(x*scale + xdisp,y*scale + ydisp,scale-2,scale-2);
+        visited_count-=0.1;
+        if(visited_count < 0){
+            visited_count = 0;
+        }
+        g.setColor(new Color((int)visited_count,255,255,(int)visited_count));
+        g.fillRect(x*scale + xdisp,y*scale + ydisp,scale-offset,scale-offset);
 
         Graphics2D g2 = (Graphics2D) g;
 

@@ -24,8 +24,8 @@ public class Maze{
         posx = 0;
         posy = 0;
 
-        resx = 10;
-        resy = 10;
+        resx = 80;
+        resy = 40;
 
         build = true;
 
@@ -221,8 +221,35 @@ public class Maze{
 
         if(tilex + ax < 0 || tilex + ax >= resx || tiley + ay < 0 || tiley + ay >= resy){
             output = true;
-        }else if(maze[tilex + ax][tiley + ay] != null){
+        }else if(maze[tilex + ax][tiley + ay] != null){//&&build
             output = true;
+        }
+
+        return output;
+    }
+    public boolean canVisit(int dir, int tilex, int tiley){
+        boolean output = true;
+        Tile tile = maze[tilex][tiley];
+
+        if(tile.getWall(dir)){
+            return false;
+        }
+
+        int ax = 0;
+        int ay = 0;
+
+        if(dir == 0){
+            ay = -1;
+        }else if(dir == 1){
+            ax = 1;
+        }else if(dir == 2){
+            ay = 1;
+        }else if(dir == 3){
+            ax = -1;
+        }
+
+        if(maze[tilex + ax][tiley + ay].getWall((dir+2)%4)){
+            output = false;
         }
 
         return output;
@@ -230,23 +257,33 @@ public class Maze{
     /*
         * Visits tiles
     */
-    // public void user_nav(Keys key){
-    //     if(key.getArU()){
-    //         user.setY(user.getY()-1);
-    //     }
-    //     if(key.getArL()){
-    //         user.setX(user.getX()-1);
-    //     }
-    //     if(key.getArD()){
-    //         user.setY(user.getY()+1);
-    //     }
-    //     if(key.getArR()){
-    //         user.setX(user.getX()+1);
-    //     }
-
-    //     System.out.println(user);
-    //     maze[user.getX()][user.getY()].addVisited(1);
-    // }
+    public void user_up(){
+        if(canVisit(0,user.getX(),user.getY())){
+            user.setY(user.getY()-1);
+            visit_tile();
+        }
+    }
+    public void user_left(){
+        if(canVisit(3,user.getX(),user.getY())){
+            user.setX(user.getX()-1);
+            visit_tile();
+        }
+    }
+    public void user_down(){
+        if(canVisit(2,user.getX(),user.getY())){
+            user.setY(user.getY()+1);
+            visit_tile();
+        }
+    }
+    public void user_right(){
+        if(canVisit(1,user.getX(),user.getY())){
+            user.setX(user.getX()+1);
+            visit_tile();
+        }
+    }
+    public void visit_tile(){
+        maze[user.getX()][user.getY()].addVisited((int)(Math.random()*100) + 50);
+    }
     /*
         * Draws to canvas
     */

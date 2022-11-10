@@ -42,12 +42,21 @@ public class Driver extends JComponent implements KeyListener, MouseListener, Mo
     }
     public void keyPressed(KeyEvent e){
         int k = e.getKeyCode();
-        System.out.println(k);
 
         if(k == 32){
             maze = new Maze();
         }else if(k == 27){
             System.exit(0);
+        }
+
+        else if(k == 38){
+            maze.user_up();
+        }else if(k == 37){
+            maze.user_left();
+        }else if(k == 40){
+            maze.user_down();
+        }else if(k == 39){
+            maze.user_right();
         }
     }
     public void keyReleased(KeyEvent e){
