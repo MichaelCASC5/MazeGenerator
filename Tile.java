@@ -10,25 +10,29 @@ public class Tile{
     private int x;
     private int y;
 
-    private int xdisp = 20;
-    private int ydisp = 20;
+    private int xdisp;
+    private int ydisp;
 
-    private int scale = 15;
-    private int offset = 0;
+    private int scale;
+    private int offset;
+    private int stroke;
 
-    private double visited_count = 0.0;
+    private double visited_count;
 
     private boolean[] walls;
 
-    public Tile(){
-        x = 0;
-        y = 0;
-
-        walls = new boolean[4];
-    }
     public Tile(int a, int b){
         x = a;
         y = b;
+
+        xdisp = 20;
+        ydisp = 20;
+
+        scale = 15;
+        offset = 0;
+        stroke = 3;
+
+        visited_count = 0.0;
 
         walls = new boolean[4];
 
@@ -48,6 +52,18 @@ public class Tile{
     public void setY(int n){
         y = n;
     }
+    public int getXDisp(){
+        return xdisp;
+    }
+    public void setXDisp(int n){
+        xdisp = n;
+    }
+    public int getYDisp(){
+        return ydisp;
+    }
+    public void setYDisp(int n){
+        ydisp = n;
+    }
     public boolean getWall(int n){
         return walls[n];
     }
@@ -59,6 +75,18 @@ public class Tile{
     }
     public int getScale(){
         return scale;
+    }
+    public void setStroke(int n){
+        stroke = n;
+    }
+    public int getStroke(){
+        return stroke;
+    }
+    public void setVisited(double n){
+        visited_count = n;
+    }
+    public double getVisited(){
+        return visited_count;
     }
     public void addVisited(int n){
         visited_count+=n;
@@ -76,17 +104,31 @@ public class Tile{
         }
         return output;
     }
-    public void draw(Graphics g){
-        visited_count-=0.1;
+    /*
+        * Real-time loop
+    */
+    public void loop(){
+        visited_count-=0.01;
         if(visited_count < 0){
             visited_count = 0;
         }
-        g.setColor(new Color((int)visited_count,255,255,(int)visited_count));
+    }
+    /*
+        * Paint Component
+    */
+    public void draw(Graphics g){
+        /*
+            * Draws user
+        */
+        g.setColor(new Color(255,255,255,(int)visited_count));
         g.fillRect(x*scale + xdisp,y*scale + ydisp,scale-offset,scale-offset);
 
+        /*
+            * Draws maze
+        */
         Graphics2D g2 = (Graphics2D) g;
 
-        Stroke stk = new BasicStroke(3);
+        Stroke stk = new BasicStroke(stroke);
         g2.setStroke(stk);
 
         g.setColor(new Color(100,100,100));

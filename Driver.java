@@ -38,6 +38,7 @@ public class Driver extends JComponent implements KeyListener, MouseListener, Mo
         maze.draw(g);
     }
     public void loop(){
+        maze.loop();
         repaint();
     }
     public void keyPressed(KeyEvent e){

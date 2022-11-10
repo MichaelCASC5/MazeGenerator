@@ -282,7 +282,17 @@ public class Maze{
         }
     }
     public void visit_tile(){
-        maze[user.getX()][user.getY()].addVisited((int)(Math.random()*100) + 50);
+        maze[user.getX()][user.getY()].setVisited(40);
+    }
+    /*
+        * Real-time loop
+    */
+    public void loop(){
+        for(int i=0;i<resx;i++){
+            for(int j=0;j<resy;j++){
+                maze[i][j].loop();
+            }
+        }
     }
     /*
         * Draws to canvas
@@ -295,5 +305,13 @@ public class Maze{
                 }
             }
         }
+
+        //Draws user
+        g.setColor(new Color(50,50,50));
+        g.fillRect(user.getX()*maze[0][0].getScale() + maze[0][0].getXDisp(),
+            user.getY()*maze[0][0].getScale() + maze[0][0].getYDisp(),
+            maze[0][0].getScale(),
+            maze[0][0].getScale()
+        );
     }
 }
