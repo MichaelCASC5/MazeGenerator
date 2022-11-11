@@ -145,8 +145,14 @@ public class Maze{
                 maze[posx][posy] = tile;
                 size++;
 
+                /*
+                    * Looping through the path from beginning to end,
+                    searching for the first cell that is not stuck.
+                    * Stuck means, "surrounded on all sides."
+                */
                 int trackx,tracky;
-                for(int i=0;i<path.size();i++){
+                for(int i=0;i<path.size();i++){//Hard mode
+                // for(int i=path.size()-1;i>=0;i--){//Easy mode
                     trackx = path.get(i).getX();
                     tracky = path.get(i).getY();
 
